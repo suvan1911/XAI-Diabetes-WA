@@ -1,5 +1,4 @@
 import pickle
-import pandas as pd
 
 with open('model.pickle','rb') as f:
     model = pickle.load(f)
@@ -11,31 +10,6 @@ limeExplainer = LimeTabularExplainer(X_train.values, feature_names=X_train.colum
 def limeExplain(inp):
     exp = limeExplainer.explain_instance(inp, model.predict_proba)
     return exp
-
-import dice_ml
-dice_data = dice_ml.Data(dataframe=df,
-                        continuous_features=['DiabetesPedigreeFunction', 'BMI','Insulin','SkinThickness','BloodPressure','Glucose','Age','Pregnancies'],
-                        outcome_name = 'Outcome'
-                        )
-
-dice_model = dice_ml.Model(model=model, backend='sklearn')
-exp = dice_ml.Dice(dice_data, dice_model)
-
-features_to_vary = ['BMI','Glucose','BloodPressure']
-permitted_range =   {'BMI':[18,35],
-                     'Glucose': [70,250],
-                     'BloodPressure':[40,120],
-                     }
-
-def genCounterfactual(inp):
-    dice_exp = exp.generate_counterfactuals(inp,
-                                            total_CFs=1, 
-                                            desired_class="opposite", 
-                                            features_to_vary=features_to_vary,
-                                            permitted_range=permitted_range)
-    
-    return dice_exp
-
 
 import shap 
 explainer = shap.Explainer(model)
