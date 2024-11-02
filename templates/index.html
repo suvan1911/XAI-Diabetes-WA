@@ -12,31 +12,39 @@
     <div class="form-container">
         <form method="POST">
             <label for="pregnancies">Pregnancies:</label>
+            <span style="font-size: smaller; color: gray;"> (Number of times pregnant)</span>
             <input type="number" step="any" name="pregnancies" required><br>
-                
+        
             <label for="glucose">Glucose:</label>
+            <span style="font-size: smaller; color: gray;"> (Plasma glucose concentration)</span>
             <input type="number" step="any" name="glucose" required><br>
-            
+        
             <label for="blood_pressure">Blood Pressure:</label>
+            <span style="font-size: smaller; color: gray;"> (Diastolic blood pressure in mm Hg)</span>
             <input type="number" step="any" name="blood_pressure" required><br>
-            
+        
             <label for="skin_thickness">Skin Thickness:</label>
+            <span style="font-size: smaller; color: gray;"> (Triceps skin fold thickness in mm)</span>
             <input type="number" step="any" name="skin_thickness" required><br>
-            
+        
             <label for="insulin">Insulin:</label>
+            <span style="font-size: smaller; color: gray;"> (2-Hour serum insulin in μU/ml)</span>
             <input type="number" step="any" name="insulin" required><br>
-            
+        
             <label for="bmi">BMI:</label>
+            <span style="font-size: smaller; color: gray;"> (Body Mass Index)</span>
             <input type="number" step="any" name="bmi" required><br>
-            
+        
             <label for="diabetes_pedigree">Diabetes Pedigree Function:</label>
             <input type="number" step="any" name="diabetes_pedigree" required><br>
-            
+        
             <label for="age">Age:</label>
+            <span style="font-size: smaller; color: gray;"> (Age in years)</span>
             <input type="number" step="any" name="age" required><br>
-            
+        
             <button type="submit">Submit</button>
         </form>
+        
     </div>
     {% if prediction %}
         <h2 id="prediction">Prediction: {{ prediction }}</h2>

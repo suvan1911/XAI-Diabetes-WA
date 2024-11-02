@@ -53,7 +53,7 @@ def index():
 
         return render_template('index.html', prediction=prediction, lime_data=lime_data, lime_labels=labels, lime_explanation=True, \
                                shap_data = shapValsOrdered, shap_labels = labels, shap_explanation=True  )
-    
+                             
     return render_template('index.html')
 
 if __name__ == '__main__':
