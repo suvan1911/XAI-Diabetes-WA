@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Diabetes prediction & XAI</title>
+</head>
+<body>
+    <h1>Diabetes Mellitus Prediciton</h1>
+    <h2>Enter input data:</h2>
+    <div class="form-container">
+        <form method="POST">
+            <label for="pregnancies">Pregnancies:</label>
+            <input type="number" step="any" name="pregnancies" required><br>
+                
+            <label for="glucose">Glucose:</label>
+            <input type="number" step="any" name="glucose" required><br>
+            
+            <label for="blood_pressure">Blood Pressure:</label>
+            <input type="number" step="any" name="blood_pressure" required><br>
+            
+            <label for="skin_thickness">Skin Thickness:</label>
+            <input type="number" step="any" name="skin_thickness" required><br>
+            
+            <label for="insulin">Insulin:</label>
+            <input type="number" step="any" name="insulin" required><br>
+            
+            <label for="bmi">BMI:</label>
+            <input type="number" step="any" name="bmi" required><br>
+            
+            <label for="diabetes_pedigree">Diabetes Pedigree Function:</label>
+            <input type="number" step="any" name="diabetes_pedigree" required><br>
+            
+            <label for="age">Age:</label>
+            <input type="number" step="any" name="age" required><br>
+            
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    {% if prediction %}
+        <h2 id="prediction">Prediction: {{ prediction }}</h2>
+    {% endif %}
+
+    <div style="display: flex; gap: 20px;">
+        {% if lime_explanation %}
+            <div style="flex: 1; height: 50vh;">
+                <h2>LIME Explanation:</h2>
+                <canvas id="LChart"></canvas>
+            </div>
+        {% endif %}
+        
+        {% if shap_explanation %}
+            <div style="flex: 1; height: 50vh;">
+                <h2>SHAP Explanation:</h2>
+                <canvas id="SChart"></canvas>
+            </div>
+        {% endif %}
+    </div>
+    
+    {% if lime_explanation %}
+        <script>
+    
+            const lime_labels = {{ lime_labels | tojson}};
+            const lime_data = {{ lime_data | tojson}}
+            const LbackgroundColors = lime_data.map(value => value > 0 ? 'rgba(255, 30, 30,0.8)' :  'rgba(30, 30, 255,0.8)');
+     
+            const Ldata = {
+                labels: lime_labels,
+                datasets: [{
+                    backgroundColor: LbackgroundColors,
+                    borderColor: 'rgb(0, 0, 0)',
+                    data: lime_data,
+                }],
+            };
+     
+            const Lconfig = {
+                type: 'bar',
+                data: Ldata,
+                options: { maintainAspectRatio: false, plugins: {legend: {display: false,}} }
+            };
+     
+            const LChart = new Chart(
+                document.getElementById('LChart'),
+                Lconfig,
+            );
+     
+        </script>
+    {% endif %}
+
+    {% if shap_explanation %}
+        <script>
+    
+            const shap_labels = {{ shap_labels | tojson}};
+            const shap_data = {{ shap_data | tojson}}
+            const SbackgroundColors = shap_data.map(value => value > 0 ? 'rgba(255, 30, 30,0.8)' :  'rgba(30, 30, 255,0.8)');
+     
+            const Sdata = {
+                labels: shap_labels,
+                datasets: [{
+                    backgroundColor: SbackgroundColors,
+                    borderColor: 'rgb(0, 0, 0)',
+                    data: shap_data,
+                }],
+            };
+     
+            const Sconfig = {
+                type: 'bar',
+                data: Sdata,
+                options: { maintainAspectRatio: false, plugins: {legend: {display: false,}} }
+            };
+     
+            const SChart = new Chart(
+                document.getElementById('SChart'),
+                Sconfig,
+            );
+     
+        </script>
+    {% endif %}
+    
+</body>
+</html>
