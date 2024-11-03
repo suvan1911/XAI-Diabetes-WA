@@ -88,4 +88,7 @@ h1, h2 {
     font-size: smaller;
     color: gray;
 }
-    
+
+#head2 {
+    font-size: 1.4em;
+}
