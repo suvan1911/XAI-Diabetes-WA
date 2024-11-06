@@ -1,6 +1,12 @@
 import pickle
+import pandas as pd 
 
-with open('model.pickle','rb') as f:
+COLS = ['Pregnancies','Glucose','BloodPressure','SkinThickness','Insulin','BMI','DiabetesPedigreeFunction','Age']
+def rawToFrame(raw):
+    frame = pd.DataFrame([raw],columns=COLS)
+    return frame
+
+with open('model2.pickle','rb') as f:
     model = pickle.load(f)
     df = pickle.load(f)
     X_train = pickle.load(f)
